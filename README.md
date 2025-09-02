@@ -1,6 +1,6 @@
 # FastDFS+FastDHT(单机+集群版)
 使用docker-compose创建FastDFS+FastDHT(单机+集群版)服务(tracker,storage,fastdht,nginx)
-## 搭建教程
+## 搭建教程 
 1. 安装docker和docker-compose  
 2. 安装git    
 3. clone项目    
