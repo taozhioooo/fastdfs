@@ -45,7 +45,8 @@ RUN     cd ${HOME}/fastdfs-master/ \
 
 #安装berkeley db
 WORKDIR ${HOME}/db-18.1.32/build_unix
-RUN     ../dist/configure -prefix=/usr \
+# Berkeley DB 18 uses pre-C23 function declarations; retain GNU C17 semantics with GCC 15.
+RUN     CFLAGS="-O2 -std=gnu17" ../dist/configure --prefix=/usr \
         && make \
         && make install
 
