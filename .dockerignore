@@ -1,0 +1,9 @@
+# Keep repository metadata, CI files, and local credentials out of the build context.
+.git
+.github
+.env
+.env.*
+*.pem
+*.key
+manifest-check.log
+manifest.json
