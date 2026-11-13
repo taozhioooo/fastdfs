@@ -33,6 +33,11 @@ RUN cd ${HOME} \
 #        && tar xvf nginx-1.21.2.tar.gz \
 #        && tar xvf db-18.1.32.tar.gz
 
+# Apply checked-in compatibility fixes to the bundled source without changing the archives.
+COPY patches /build-patches
+# The patch has zero-context hunks against the bundled, fixed source snapshots.
+RUN git -C ${HOME} apply --unidiff-zero /build-patches/legacy-gcc15.patch
+
 # 安装libfastcommon
 RUN     cd ${HOME}/libfastcommon-master/ \
         && ./make.sh \
@@ -54,7 +59,8 @@ RUN     CFLAGS="-O2 -std=gnu17" ../dist/configure --prefix=/usr \
 RUN     cd ${HOME}/fastdht-master/ \
         && sed -i "s?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE'?CFLAGS='-Wall -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I/usr/include/ -L/usr/lib/'?" make.sh \
         && ./make.sh \
-        && ./make.sh install
+        && ./make.sh install \
+        && test -x /usr/local/bin/fdhtd
 
 # 配置fastdfs: base_dir
 RUN     cd /etc/fdfs/ \

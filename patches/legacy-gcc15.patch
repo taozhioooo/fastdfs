@@ -1,0 +1,27 @@
+diff --git a/fastdht-master/tool/fdht_compress.c b/fastdht-master/tool/fdht_compress.c
+--- a/fastdht-master/tool/fdht_compress.c
++++ b/fastdht-master/tool/fdht_compress.c
+@@ -74,1 +74,1 @@
+-static int get_binlog_compressed_index();
++static int get_binlog_compressed_index(int *compressed_index);
+diff --git a/fastdfs-nginx-module-master/src/common.c b/fastdfs-nginx-module-master/src/common.c
+--- a/fastdfs-nginx-module-master/src/common.c
++++ b/fastdfs-nginx-module-master/src/common.c
+@@ -856,1 +856,6 @@
+-		snprintf(file_id, sizeof(file_id), "%s", uri + 1);
++		if (snprintf(file_id, sizeof(file_id), "%s", uri + 1)
++			>= (int)sizeof(file_id))
++		{
++			OUTPUT_HEADERS(pContext, (&response), HTTP_BADREQUEST);
++			return HTTP_BADREQUEST;
++		}
+@@ -902,2 +907,7 @@
+-		snprintf(file_id, sizeof(file_id), "%s/%s", \
+-			my_group_name, file_id_without_group);
++		if (snprintf(file_id, sizeof(file_id), "%s/%s", \
++			my_group_name, file_id_without_group)
++			>= (int)sizeof(file_id))
++		{
++			OUTPUT_HEADERS(pContext, (&response), HTTP_BADREQUEST);
++			return HTTP_BADREQUEST;
++		}
