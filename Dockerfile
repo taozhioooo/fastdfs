@@ -1,5 +1,5 @@
 # 使用超小的Linux镜像alpine
-FROM alpine:3.12
+FROM alpine:3.24
 
 ENV HOME /root
 
@@ -15,7 +15,7 @@ RUN cd ${HOME} \
     && tar xvf fastdfs-master.tar.gz \
     && tar xvf fastdfs-nginx-module-master.tar.gz \
     && tar xvf fastdht-master.tar.gz \
-    && tar xvf nginx-1.21.2.tar.gz \
+    && tar xvf nginx-1.30.6.tar.gz \
     && tar xvf db-18.1.32.tar.gz
 
 # 下载libfastcommon、fastdfs、fastdfs-nginx-module、fastdht、berkeley-db、nginx插件的源码
@@ -69,7 +69,7 @@ RUN     cd /etc/fdfs/ \
 # 获取nginx源码，与fastdfs插件一起编译
 RUN     cd ${HOME} \
         && chmod u+x ${HOME}/fastdfs-nginx-module-master/src/config \
-        && cd nginx-1.21.2 \
+        && cd nginx-1.30.6 \
         && ./configure --add-module=${HOME}/fastdfs-nginx-module-master/src \
         && make && make install
 
